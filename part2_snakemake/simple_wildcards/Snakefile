@@ -1,0 +1,60 @@
+# Define your samples
+SAMPLE_NAMES = ["sample1", "sample2", "sample3"] # Add more sample names as needed
+
+# can use python package glob to get all the files too!
+# import glob
+# files = glob.glob("data/*.txt")
+# print(files)
+# SAMPLE_NAMES = []
+# for i,f in enumerate(files):
+#     sample = f.replace("data/", "").replace("_rna_sequences.txt", "")
+#     SAMPLE_NAMES.append( sample )
+# or compact version
+# SAMPLE_NAMES = [f.replace("data/", "").replace("_rna_sequences.txt", "") for f in glob.glob("data/*.txt")]
+
+
+# find all files in the data subdirectory and remove the suffix "_rna_sequences.txt"
+# to get the sample names
+# SAMPLE_TEST = [f.replace("_rna_sequences.txt", "") for f in snakemake.utils.list_files("data")]
+# print("CONTENTS OF SAMPLE_TEST: ", SAMPLE_TEST)
+
+# Rule All
+rule all:
+    input:
+        "all_samples_reverse_complement.txt"
+
+# Rule to collect all reverse complements into one file
+rule collect_all_reverse_complements:
+    input:
+        expand("{sample}_reverse_complement.txt", sample=SAMPLE_NAMES)
+    output:
+        "all_samples_reverse_complement.txt"
+    shell:
+        "cat {input} > {output}"
+
+# Rule to find reverse complement of DNA
+rule reverse_complement_dna:
+    input:
+        "{sample}_dna_sequences.txt"
+    output:
+        "{sample}_reverse_complement.txt"
+    shell:
+        # rev is a command line tool to reverse lines of a file, here it reverses the DNA sequence
+         # I have to program sleep for 5 seconds afterwards to demonstrate reruns and parallelization       
+        "rev {input} | tr 'ATCG' 'TAGC' > {output}\n"
+        "sleep 5"
+
+# Rule to convert RNA to DNA
+rule convert_rna_to_dna:
+    input:
+        "data/{sample}_rna_sequences.txt"
+    output:
+        "{sample}_dna_sequences.txt"
+    shell:
+        # tr is a command line tool to translate characters, here it converts U's to T's
+        # I have to program sleep for 5 seconds afterwards to demonstrate reruns and parallelization
+        "tr 'U' 'T' < {input} > {output}\n"
+        "sleep 5"
+
+
+

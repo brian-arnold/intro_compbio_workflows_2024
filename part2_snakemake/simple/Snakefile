@@ -1,0 +1,24 @@
+# Rule All
+rule all:
+    input:
+        "reverse_complement.txt"
+
+# Rule to convert RNA to DNA
+rule convert_rna_to_dna:
+    input:
+        "rna_sequences.txt"
+    output:
+        temp("dna_sequences.txt")
+    shell:
+        # tr is a command line tool to translate characters, here it converts U's to T's
+        "tr 'U' 'T' < {input} > {output}"
+
+# Rule to find reverse complement of DNA
+rule reverse_complement_dna:
+    input:
+        temp("dna_sequences.txt")
+    output:
+        "reverse_complement.txt"
+    shell:
+        "rev {input} | tr 'ATCG' 'TAGC' > {output}"
+ 

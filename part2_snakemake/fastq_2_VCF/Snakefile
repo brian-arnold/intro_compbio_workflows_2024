@@ -1,0 +1,72 @@
+# The only part of this code I wrote was specifying the sample names and the reference genome, 
+# as well as the the get_read_group function below.
+# Everything else (>90% of the code) was written by chatGPT4 and requireds only minor changes. I gave it a test run and it worked.
+
+# Configuration
+SAMPLES = ["2981B", "2982B"]  # Add your sample names here
+REF = "ref_genome/Loxodonta_africana.loxAfr3.dna.toplevel.fa"
+
+
+# helper functions
+def get_read_group(wc):
+    """Denote sample name and library_id in read group."""
+    return r"'@RG\tID:{sample}\tSM:{sample}'".format(
+        sample=wc.sample
+    )
+
+
+# Rules
+rule all:
+    input:
+        "03_variants/results.vcf"
+
+rule fastp:
+    input:
+        r1="fastq/{sample}_1.fastq.gz",
+        r2="fastq/{sample}_2.fastq.gz"
+    output:
+        trimmed_r1="01_trimmed/{sample}_1.fastq.gz",
+        trimmed_r2="01_trimmed/{sample}_2.fastq.gz",
+    threads: 16
+    shell:
+        # this command is a bit long, so we can use a multiline string
+        """
+        fastp --in1 {input.r1} --in2 {input.r2} \
+               --out1 {output.trimmed_r1} --out2 {output.trimmed_r2} \
+               --thread {threads} \
+               --detect_adapter_for_pe
+        """
+
+rule bwa_mem:
+    input:
+        ref=REF,
+        r1="01_trimmed/{sample}_1.fastq.gz",
+        r2="01_trimmed/{sample}_2.fastq.gz"
+    output:
+        bam="02_aligned/{sample}.bam",
+        bai="02_aligned/{sample}.bai"
+    params:
+        rg = get_read_group
+    threads: 20
+    shell:
+        "bwa mem -M -t {threads} -R {params.rg} {input.ref} {input.r1} {input.r2} | samtools sort -o {output.bam} - && samtools index {output.bam} {output.bai}"
+
+rule sambamba_markdup:
+    input:
+        bam="02_aligned/{sample}.bam"
+    output:
+        bam="02_aligned/{sample}_dedup.bam"
+    threads: 5
+    shell:
+        "sambamba markdup -t {threads} {input.bam} {output.bam}"
+
+rule freebayes:
+    input:
+        bams=expand("02_aligned/{sample}_dedup.bam", sample=SAMPLES),
+        ref=REF
+    output:
+        vcf="03_variants/results.vcf"
+    params:
+        bams = " ".join(expand("02_aligned/{sample}_dedup.bam", sample=SAMPLES))
+    shell:
+        "freebayes -f {input.ref} {params.bams} > {output.vcf}"

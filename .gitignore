@@ -1,0 +1,3 @@
+/part2_snakemake/simple_wildcards/.snakemake/*
+/part2_snakemake/fastq_2_VCF/.snakemake/*
+/part2_snakemake/simple/.snakemake/*
