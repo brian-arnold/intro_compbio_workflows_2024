@@ -1,7 +1,8 @@
-# Define your samples
-SAMPLE_NAMES = ["sample1", "sample2", "sample3"] # Add more sample names as needed
+# Put your sample names in a python list, specified using square brackets []
+# These sample names correspond to the unique part of the file names in the data directory
+SAMPLE_NAMES = ["sample1", "sample2", "sample3"] 
 
-# can use python package glob to get all the files too!
+# # can use python package 'glob'' to automate retrieval of sample names!
 # import glob
 # files = glob.glob("data/*.txt")
 # print(files)
@@ -9,14 +10,8 @@ SAMPLE_NAMES = ["sample1", "sample2", "sample3"] # Add more sample names as need
 # for i,f in enumerate(files):
 #     sample = f.replace("data/", "").replace("_rna_sequences.txt", "")
 #     SAMPLE_NAMES.append( sample )
-# or compact version
+# # or compact version
 # SAMPLE_NAMES = [f.replace("data/", "").replace("_rna_sequences.txt", "") for f in glob.glob("data/*.txt")]
-
-
-# find all files in the data subdirectory and remove the suffix "_rna_sequences.txt"
-# to get the sample names
-# SAMPLE_TEST = [f.replace("_rna_sequences.txt", "") for f in snakemake.utils.list_files("data")]
-# print("CONTENTS OF SAMPLE_TEST: ", SAMPLE_TEST)
 
 # Rule All
 rule all:

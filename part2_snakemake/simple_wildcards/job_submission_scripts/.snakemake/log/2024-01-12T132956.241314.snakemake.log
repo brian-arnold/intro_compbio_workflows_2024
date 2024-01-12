@@ -1,0 +1,8 @@
+Migrating .snakemake folder to new format...
+Migration complete
+Building DAG of jobs...
+WorkflowError:
+MissingInputException: Missing input files for rule convert_rna_to_dna:
+data/sample1_rna_sequences.txt
+MissingInputException: Missing input files for rule convert_rna_to_dna:
+data/all_samples_rna_sequences.txt

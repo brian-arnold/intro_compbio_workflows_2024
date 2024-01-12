@@ -12,10 +12,4 @@ source /Genomics/argo/users/bjarnold/miniforge3/etc/profile.d/conda.sh
 
 conda activate bioinformatics
 
-# before submitting the job, I typically do the following on the command line:
-# snakemake -n
-# where -n specifies a 'dry run' that shows you all the commands that will be run. If there are any errors in the code, 
-# this won't work and will print an error message specifying where in the code the error is.
-
-# after you do this, the following command will run snakemake on the cluster:
 snakemake --cores 20

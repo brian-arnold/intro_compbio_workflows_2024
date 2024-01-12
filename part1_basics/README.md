@@ -69,16 +69,18 @@ Let's start by finding out exactly where miniforge3 was installed on the cluster
 Before we start submitting jobs to run software on the cluster, let's install this software in our first conda environment. To see if software exists on anaconda and how to we might install it, I always quick google the name of the program along with anaconda.
 
 Let's make our conda environment:
-- `conda create --name bioinformatics`
-- `conda activate bioinformatics`
-- `mamba install --channel bioconda fastp bwa sambamba freebayes snakemake`
-    - check anaconda.org to see what channel to use with `-c` or for other specific instructions
-- `bwa --help` to see that it successfully installed
-- `conda deactivate`
-- `conda env list` to see the new environment we just created, i use this to remind myself of environment names!
+- `mamba create --name bioinformatics`
+- `mamba activate bioinformatics`
+- `mamba install --channel conda-forge --channel bioconda snakemake`
+    - taken from the [snakemake webpage](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html#:~:text=mamba%20create%20%2Dc%20conda%2Dforge%20%2Dc%20bioconda%20%2Dn%20snakemake%20snakemake)
+- `mamba install --channel bioconda fastp bwa sambamba freebayes`
+    - check anaconda.org to see what channel to use with `--channel`, or `-c` or for other specific instructions
+- tpe `bwa` to see that it successfully installed
+- `mamba deactivate`
+- `mamba env list` to see the new environment we just created, i use this to remind myself of environment names!
 
 In addition to these conda commands, I also use the following to remove an environment:
-- `conda remove -n env_name --all`
+- `mamba remove -n env_name --all`
     - where your replace `env_name` with the name of your environment
 
 

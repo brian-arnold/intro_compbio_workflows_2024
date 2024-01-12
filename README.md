@@ -25,6 +25,7 @@ You can install these tools, which are further explained in [part 1](/part1_basi
 #### 3. Download code and example data
 
 - Using the `cd` command, move into a directory on the cluster in which you have more than **XX** GB of space.
+    - E.g. I'm using `/scratch/gpfs/bjarnold/`, and you can get a similar directory in the scratch directory.
 - Clone this repository: `git clone https://github.com/brian-arnold/intro_compbio_workflows_2024`.
 - Move into the repository: `cd intro_compbio_workflows_2024`.
 - Download African elephant WGS data (~6GB): `wget -O data.tar.gz https://zenodo.org/records/10452771/files/data.tar.gz?download=1`.

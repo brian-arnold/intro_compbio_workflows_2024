@@ -4,8 +4,7 @@
 
 # Configuration
 SAMPLES = ["2981B", "2982B"]  # Add your sample names here
-REF = "ref_genome/Loxodonta_africana.loxAfr3.dna.toplevel.fa"
-
+REF = "../../data/genome/Loxodonta_africana.loxAfr3.dna.toplevel.fa"
 
 # helper functions
 def get_read_group(wc):
@@ -22,8 +21,8 @@ rule all:
 
 rule fastp:
     input:
-        r1="fastq/{sample}_1.fastq.gz",
-        r2="fastq/{sample}_2.fastq.gz"
+        r1="../../data/fastq/{sample}_1.fastq.gz",
+        r2="../../data/fastq/{sample}_2.fastq.gz"
     output:
         trimmed_r1="01_trimmed/{sample}_1.fastq.gz",
         trimmed_r2="01_trimmed/{sample}_2.fastq.gz",
