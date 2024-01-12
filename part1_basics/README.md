@@ -71,8 +71,8 @@ Before we start submitting jobs to run software on the cluster, let's install th
 Let's make our conda environment:
 - `conda create --name bioinformatics`
 - `conda activate bioinformatics`
-- `mamba install --channel bioconda fastp bwa sambamba freebayes`
-    - check anaconda.org to see what channel to use with `-c`
+- `mamba install --channel bioconda fastp bwa sambamba freebayes snakemake`
+    - check anaconda.org to see what channel to use with `-c` or for other specific instructions
 - `bwa --help` to see that it successfully installed
 - `conda deactivate`
 - `conda env list` to see the new environment we just created, i use this to remind myself of environment names!
