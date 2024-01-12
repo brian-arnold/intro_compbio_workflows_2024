@@ -23,17 +23,19 @@ You can install these tools, which are further explained in [part 1](/part1_basi
     - Type `conda --help` and `mamba --help` to ensure they're installed, you should see a lengthy explanation of how to use the programs.
 
 #### 3. Download code and example data
-    - Using the `cd` command, move into a directory on the cluster in which you have more than **XX** GB of space.
-    - Clone this repository: `git clone https://github.com/brian-arnold/intro_compbio_workflows_2024`.
-    - Move into the repository: `cd intro_compbio_workflows_2024`.
-    - Download African elephant WGS data (~6GB): `wget -O data.tar.gz https://zenodo.org/records/10452771/files/data.tar.gz?download=1`.
-    - Unpack the tarball we just downloaded: `tar zxvf data.tar.gz`.
-    - You should now see a directory called `data` that has two subdirectories: `fastq` and `genome`.
+
+- Using the `cd` command, move into a directory on the cluster in which you have more than **XX** GB of space.
+- Clone this repository: `git clone https://github.com/brian-arnold/intro_compbio_workflows_2024`.
+- Move into the repository: `cd intro_compbio_workflows_2024`.
+- Download African elephant WGS data (~6GB): `wget -O data.tar.gz https://zenodo.org/records/10452771/files/data.tar.gz?download=1`.
+- Unpack the tarball we just downloaded: `tar zxvf data.tar.gz`.
+- You should now see a directory called `data` that has two subdirectories: `fastq` and `genome`.
 
 #### 4. VS Code installation (Optional; if you skip this step, you can follow along during the workshop using a terminal window) 
-    - I now use VS Code for all computational work that I do. It's amazing and extremely popular. You can download it [here](https://code.visualstudio.com/download).
-    - VS Code is very simple, and the user makes it more complex by installing plugins. My two favorite are:
-        - `GitHub Copilot` so that AI helps me code everytime I open a text editor in VS Code.
-        - `Remote - SSH` to use VS code to log into a remote server (e.g. the Della cluster)
+
+- I now use VS Code for all computational work that I do. It's amazing and extremely popular. You can download it [here](https://code.visualstudio.com/download).
+- VS Code is very simple, and the user makes it more complex by installing plugins. My two favorite are:
+    - `GitHub Copilot` so that AI helps me code everytime I open a text editor in VS Code.
+    - `Remote - SSH` to use VS code to log into a remote server (e.g. the Della cluster)
     
 
