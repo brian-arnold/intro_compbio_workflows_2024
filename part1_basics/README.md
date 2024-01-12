@@ -93,8 +93,9 @@ SLURM commands I frequently use to submit jobs and monitor their progress
     - then I just type `sstats` instead!
 - `checkquota`
 
-View script in 00_simple_job_submission dir
+#### View script in 00_simple_job_submission dir
+
 - submit as job using 'sbatch'
 - run as bash script using 'bash'
 
-View scripts in 01_fastq_2_vcf_pipeline
+#### View scripts in 01_fastq_2_vcf_pipeline
