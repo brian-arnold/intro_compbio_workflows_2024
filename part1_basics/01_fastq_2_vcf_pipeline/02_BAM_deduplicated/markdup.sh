@@ -9,7 +9,7 @@
 #SBATCH --time 0-06:00:00        # DAYS-HOURS:MINUTES:SECONDS
 
 # let the compute node know where conda is installed
-source /Genomics/argo/users/bjarnold/miniforge3/etc/profile.d/conda.sh
+source ~/miniforge3/etc/profile.d/conda.sh
 # activate the environment where you've installed the programs you need
 conda activate bioinformatics
 

@@ -1,0 +1,361 @@
+Config file config/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Job stats:
+job                     count
+--------------------  -------
+all                         1
+bam_sumstats                2
+bwa_map                     2
+callable_bed                1
+collect_covstats            1
+collect_fastp_stats         2
+collect_sumstats            1
+compute_d4                  2
+create_cov_bed              1
+create_db_intervals         1
+dedup                       2
+download_reference          1
+fastp                       2
+format_interval_list        1
+genmap                      1
+index_reference             1
+mappability_bed             1
+merge_d4                    1
+picard_intervals            1
+sort_gatherVcfs             1
+total                      26
+
+
+[Sun Jan 14 15:54:44 2024]
+rule fastp:
+    input: /scratch/gpfs/bjarnold/intro_compbio_workflows_2024/data/fastq/2981B_1.fastq.gz, /scratch/gpfs/bjarnold/intro_compbio_workflows_2024/data/fastq/2981B_2.fastq.gz
+    output: results/loxAfr3/filtered_fastqs/2981B/1_1.fastq.gz, results/loxAfr3/filtered_fastqs/2981B/1_2.fastq.gz, results/loxAfr3/summary_stats/2981B/1.fastp.out
+    log: logs/loxAfr3/fastp/2981B/1.txt
+    jobid: 11
+    benchmark: benchmarks/loxAfr3/fastp/2981B_1.txt
+    reason: Missing output files: results/loxAfr3/filtered_fastqs/2981B/1_1.fastq.gz, results/loxAfr3/filtered_fastqs/2981B/1_2.fastq.gz, results/loxAfr3/summary_stats/2981B/1.fastp.out
+    wildcards: refGenome=loxAfr3, sample=2981B, run=1
+    resources: tmpdir=/tmp, mem_mb=8000, mem_mib=7630
+
+
+[Sun Jan 14 15:54:44 2024]
+rule download_reference:
+    input: /scratch/gpfs/bjarnold/intro_compbio_workflows_2024/data/genome/Loxodonta_africana.loxAfr3.dna.toplevel.fa
+    output: results/loxAfr3/data/genome/loxAfr3.fna
+    log: logs/loxAfr3/download_ref/log.txt
+    jobid: 3
+    benchmark: benchmarks/loxAfr3/download_ref/benchmark.txt
+    reason: Missing output files: results/loxAfr3/data/genome/loxAfr3.fna
+    wildcards: refGenome=loxAfr3
+    resources: tmpdir=/tmp
+
+
+[Sun Jan 14 15:54:44 2024]
+rule fastp:
+    input: /scratch/gpfs/bjarnold/intro_compbio_workflows_2024/data/fastq/2982B_1.fastq.gz, /scratch/gpfs/bjarnold/intro_compbio_workflows_2024/data/fastq/2982B_2.fastq.gz
+    output: results/loxAfr3/filtered_fastqs/2982B/2_1.fastq.gz, results/loxAfr3/filtered_fastqs/2982B/2_2.fastq.gz, results/loxAfr3/summary_stats/2982B/2.fastp.out
+    log: logs/loxAfr3/fastp/2982B/2.txt
+    jobid: 15
+    benchmark: benchmarks/loxAfr3/fastp/2982B_2.txt
+    reason: Missing output files: results/loxAfr3/filtered_fastqs/2982B/2_2.fastq.gz, results/loxAfr3/filtered_fastqs/2982B/2_1.fastq.gz, results/loxAfr3/summary_stats/2982B/2.fastp.out
+    wildcards: refGenome=loxAfr3, sample=2982B, run=2
+    resources: tmpdir=/tmp, mem_mb=8000, mem_mib=7630
+
+
+[Sun Jan 14 15:54:44 2024]
+rule genmap:
+    input: results/loxAfr3/data/genome/loxAfr3.fna
+    output: results/loxAfr3/genmap/loxAfr3.genmap.bedgraph, results/loxAfr3/genmap/sorted_mappability.bg
+    log: logs/loxAfr3/genmap/log.txt
+    jobid: 25
+    benchmark: benchmarks/loxAfr3/genmap/benchmark.txt
+    reason: Missing output files: results/loxAfr3/genmap/sorted_mappability.bg; Input files updated by another job: results/loxAfr3/data/genome/loxAfr3.fna
+    wildcards: refGenome=loxAfr3
+    resources: tmpdir=/tmp, mem_mb=20000, mem_mib=19074
+
+
+[Sun Jan 14 15:54:44 2024]
+rule collect_fastp_stats:
+    input: results/loxAfr3/summary_stats/2981B/1.fastp.out
+    output: results/loxAfr3/summary_stats/2981B_fastp.out
+    jobid: 16
+    reason: Missing output files: results/loxAfr3/summary_stats/2981B_fastp.out; Input files updated by another job: results/loxAfr3/summary_stats/2981B/1.fastp.out
+    wildcards: refGenome=loxAfr3, sample=2981B
+    resources: tmpdir=/tmp
+
+
+[Sun Jan 14 15:54:44 2024]
+rule index_reference:
+    input: results/loxAfr3/data/genome/loxAfr3.fna
+    output: results/loxAfr3/data/genome/loxAfr3.fna.sa, results/loxAfr3/data/genome/loxAfr3.fna.pac, results/loxAfr3/data/genome/loxAfr3.fna.bwt, results/loxAfr3/data/genome/loxAfr3.fna.ann, results/loxAfr3/data/genome/loxAfr3.fna.amb, results/loxAfr3/data/genome/loxAfr3.fna.fai, results/loxAfr3/data/genome/loxAfr3.dict
+    log: logs/loxAfr3/index_ref/log.txt
+    jobid: 4
+    benchmark: benchmarks/loxAfr3/index_ref/benchmark.txt
+    reason: Missing output files: results/loxAfr3/data/genome/loxAfr3.fna.bwt, results/loxAfr3/data/genome/loxAfr3.fna.fai, results/loxAfr3/data/genome/loxAfr3.fna.amb, results/loxAfr3/data/genome/loxAfr3.fna.sa, results/loxAfr3/data/genome/loxAfr3.dict, results/loxAfr3/data/genome/loxAfr3.fna.ann, results/loxAfr3/data/genome/loxAfr3.fna.pac; Input files updated by another job: results/loxAfr3/data/genome/loxAfr3.fna
+    wildcards: refGenome=loxAfr3
+    resources: tmpdir=/tmp, mem_mb=20000, mem_mib=19074
+
+
+[Sun Jan 14 15:54:44 2024]
+rule collect_fastp_stats:
+    input: results/loxAfr3/summary_stats/2982B/2.fastp.out
+    output: results/loxAfr3/summary_stats/2982B_fastp.out
+    jobid: 17
+    reason: Missing output files: results/loxAfr3/summary_stats/2982B_fastp.out; Input files updated by another job: results/loxAfr3/summary_stats/2982B/2.fastp.out
+    wildcards: refGenome=loxAfr3, sample=2982B
+    resources: tmpdir=/tmp
+
+Would remove temporary output results/loxAfr3/genmap/loxAfr3.genmap.bedgraph
+
+[Sun Jan 14 15:54:44 2024]
+rule bwa_map:
+    input: results/loxAfr3/data/genome/loxAfr3.fna, results/loxAfr3/filtered_fastqs/2982B/2_1.fastq.gz, results/loxAfr3/filtered_fastqs/2982B/2_2.fastq.gz, results/loxAfr3/data/genome/loxAfr3.fna.sa, results/loxAfr3/data/genome/loxAfr3.fna.pac, results/loxAfr3/data/genome/loxAfr3.fna.bwt, results/loxAfr3/data/genome/loxAfr3.fna.ann, results/loxAfr3/data/genome/loxAfr3.fna.amb, results/loxAfr3/data/genome/loxAfr3.fna.fai
+    output: results/loxAfr3/bams/preMerge/2982B/2.bam, results/loxAfr3/bams/preMerge/2982B/2.bam.bai
+    log: logs/loxAfr3/bwa_mem/2982B/2.txt
+    jobid: 14
+    benchmark: benchmarks/loxAfr3/bwa_mem/2982B_2.txt
+    reason: Missing output files: results/loxAfr3/bams/preMerge/2982B/2.bam, results/loxAfr3/bams/preMerge/2982B/2.bam.bai; Input files updated by another job: results/loxAfr3/data/genome/loxAfr3.fna, results/loxAfr3/data/genome/loxAfr3.fna.bwt, results/loxAfr3/data/genome/loxAfr3.fna.fai, results/loxAfr3/data/genome/loxAfr3.fna.amb, results/loxAfr3/filtered_fastqs/2982B/2_1.fastq.gz, results/loxAfr3/data/genome/loxAfr3.fna.sa, results/loxAfr3/filtered_fastqs/2982B/2_2.fastq.gz, results/loxAfr3/data/genome/loxAfr3.fna.ann, results/loxAfr3/data/genome/loxAfr3.fna.pac
+    wildcards: refGenome=loxAfr3, sample=2982B, run=2
+    resources: tmpdir=/tmp, mem_mb=30000, mem_mib=28611
+
+
+[Sun Jan 14 15:54:44 2024]
+rule bwa_map:
+    input: results/loxAfr3/data/genome/loxAfr3.fna, results/loxAfr3/filtered_fastqs/2981B/1_1.fastq.gz, results/loxAfr3/filtered_fastqs/2981B/1_2.fastq.gz, results/loxAfr3/data/genome/loxAfr3.fna.sa, results/loxAfr3/data/genome/loxAfr3.fna.pac, results/loxAfr3/data/genome/loxAfr3.fna.bwt, results/loxAfr3/data/genome/loxAfr3.fna.ann, results/loxAfr3/data/genome/loxAfr3.fna.amb, results/loxAfr3/data/genome/loxAfr3.fna.fai
+    output: results/loxAfr3/bams/preMerge/2981B/1.bam, results/loxAfr3/bams/preMerge/2981B/1.bam.bai
+    log: logs/loxAfr3/bwa_mem/2981B/1.txt
+    jobid: 10
+    benchmark: benchmarks/loxAfr3/bwa_mem/2981B_1.txt
+    reason: Missing output files: results/loxAfr3/bams/preMerge/2981B/1.bam, results/loxAfr3/bams/preMerge/2981B/1.bam.bai; Input files updated by another job: results/loxAfr3/data/genome/loxAfr3.fna, results/loxAfr3/data/genome/loxAfr3.fna.bwt, results/loxAfr3/data/genome/loxAfr3.fna.fai, results/loxAfr3/data/genome/loxAfr3.fna.amb, results/loxAfr3/filtered_fastqs/2981B/1_1.fastq.gz, results/loxAfr3/data/genome/loxAfr3.fna.sa, results/loxAfr3/data/genome/loxAfr3.fna.ann, results/loxAfr3/filtered_fastqs/2981B/1_2.fastq.gz, results/loxAfr3/data/genome/loxAfr3.fna.pac
+    wildcards: refGenome=loxAfr3, sample=2981B, run=1
+    resources: tmpdir=/tmp, mem_mb=30000, mem_mib=28611
+
+
+[Sun Jan 14 15:54:44 2024]
+rule mappability_bed:
+    input: results/loxAfr3/genmap/sorted_mappability.bg
+    output: results/loxAfr3/callable_sites/test_callable_sites_map.bed, results/loxAfr3/callable_sites/test_temp_map.bed
+    jobid: 24
+    benchmark: benchmarks/loxAfr3/mapbed/test_benchmark.txt
+    reason: Missing output files: results/loxAfr3/callable_sites/test_callable_sites_map.bed; Input files updated by another job: results/loxAfr3/genmap/sorted_mappability.bg
+    wildcards: refGenome=loxAfr3, prefix=test
+    resources: tmpdir=/tmp, mem_mb=10000, mem_mib=9537
+
+
+[Sun Jan 14 15:54:44 2024]
+rule picard_intervals:
+    input: results/loxAfr3/data/genome/loxAfr3.fna, results/loxAfr3/data/genome/loxAfr3.fna.fai, results/loxAfr3/data/genome/loxAfr3.dict
+    output: results/loxAfr3/intervals/picard_interval_list.list
+    log: logs/loxAfr3/picard_intervals/log.txt
+    jobid: 6
+    benchmark: benchmarks/loxAfr3/picard_intervals/benchmark.txt
+    reason: Missing output files: results/loxAfr3/intervals/picard_interval_list.list; Input files updated by another job: results/loxAfr3/data/genome/loxAfr3.fna, results/loxAfr3/data/genome/loxAfr3.dict, results/loxAfr3/data/genome/loxAfr3.fna.fai
+    wildcards: refGenome=loxAfr3
+    resources: tmpdir=/tmp, mem_mb=15000, mem_mib=14306
+
+Would remove temporary output results/loxAfr3/callable_sites/test_temp_map.bed
+
+[Sun Jan 14 15:54:44 2024]
+rule dedup:
+    input: results/loxAfr3/bams/preMerge/2982B/2.bam, results/loxAfr3/bams/preMerge/2982B/2.bam.bai
+    output: results/loxAfr3/bams/2982B_final.bam, results/loxAfr3/bams/2982B_final.bam.bai
+    log: logs/loxAfr3/sambamba_dedup/2982B.txt
+    jobid: 13
+    benchmark: benchmarks/loxAfr3/sambamba_dedup/2982B.txt
+    reason: Missing output files: results/loxAfr3/bams/2982B_final.bam, results/loxAfr3/bams/2982B_final.bam.bai; Input files updated by another job: results/loxAfr3/bams/preMerge/2982B/2.bam, results/loxAfr3/bams/preMerge/2982B/2.bam.bai
+    wildcards: refGenome=loxAfr3, sample=2982B
+    resources: tmpdir=/tmp, threads=20, mem_mb=9000, mem_mib=8584
+
+
+[Sun Jan 14 15:54:44 2024]
+rule dedup:
+    input: results/loxAfr3/bams/preMerge/2981B/1.bam, results/loxAfr3/bams/preMerge/2981B/1.bam.bai
+    output: results/loxAfr3/bams/2981B_final.bam, results/loxAfr3/bams/2981B_final.bam.bai
+    log: logs/loxAfr3/sambamba_dedup/2981B.txt
+    jobid: 9
+    benchmark: benchmarks/loxAfr3/sambamba_dedup/2981B.txt
+    reason: Missing output files: results/loxAfr3/bams/2981B_final.bam.bai, results/loxAfr3/bams/2981B_final.bam; Input files updated by another job: results/loxAfr3/bams/preMerge/2981B/1.bam, results/loxAfr3/bams/preMerge/2981B/1.bam.bai
+    wildcards: refGenome=loxAfr3, sample=2981B
+    resources: tmpdir=/tmp, threads=20, mem_mb=9000, mem_mib=8584
+
+
+[Sun Jan 14 15:54:44 2024]
+rule format_interval_list:
+    input: results/loxAfr3/intervals/picard_interval_list.list
+    output: results/loxAfr3/intervals/master_interval_list.list
+    jobid: 5
+    reason: Missing output files: results/loxAfr3/intervals/master_interval_list.list; Input files updated by another job: results/loxAfr3/intervals/picard_interval_list.list
+    wildcards: refGenome=loxAfr3
+    resources: tmpdir=/tmp
+
+Would remove temporary output results/loxAfr3/bams/preMerge/2982B/2.bam
+Would remove temporary output results/loxAfr3/bams/preMerge/2982B/2.bam.bai
+Would remove temporary output results/loxAfr3/bams/preMerge/2981B/1.bam
+Would remove temporary output results/loxAfr3/bams/preMerge/2981B/1.bam.bai
+Would remove temporary output results/loxAfr3/intervals/picard_interval_list.list
+
+[Sun Jan 14 15:54:44 2024]
+rule compute_d4:
+    input: results/loxAfr3/bams/2981B_final.bam, results/loxAfr3/bams/2981B_final.bam.bai
+    output: results/loxAfr3/callable_sites/2981B.mosdepth.global.dist.txt, results/loxAfr3/callable_sites/2981B.per-base.d4, results/loxAfr3/callable_sites/2981B.mosdepth.summary.txt
+    log: logs/loxAfr3/compute_d4/2981B.txt
+    jobid: 21
+    benchmark: benchmarks/loxAfr3/compute_d4/2981B.txt
+    reason: Missing output files: results/loxAfr3/callable_sites/2981B.mosdepth.summary.txt, results/loxAfr3/callable_sites/2981B.per-base.d4; Input files updated by another job: results/loxAfr3/bams/2981B_final.bam.bai, results/loxAfr3/bams/2981B_final.bam
+    wildcards: refGenome=loxAfr3, sample=2981B
+    resources: tmpdir=/tmp, mem_mb=4000, mem_mib=3815
+
+
+[Sun Jan 14 15:54:44 2024]
+checkpoint create_db_intervals:
+    input: results/loxAfr3/data/genome/loxAfr3.fna, results/loxAfr3/data/genome/loxAfr3.fna.fai, results/loxAfr3/data/genome/loxAfr3.dict, results/loxAfr3/intervals/master_interval_list.list
+    output: results/loxAfr3/intervals/db_intervals/intervals.txt, results/loxAfr3/intervals/db_intervals
+    log: logs/loxAfr3/db_intervals/log.txt
+    jobid: 2
+    benchmark: benchmarks/loxAfr3/db_intervals/benchmark.txt
+    reason: Missing output files: results/loxAfr3/intervals/db_intervals/intervals.txt; Input files updated by another job: results/loxAfr3/data/genome/loxAfr3.fna, results/loxAfr3/data/genome/loxAfr3.dict, results/loxAfr3/data/genome/loxAfr3.fna.fai, results/loxAfr3/intervals/master_interval_list.list
+    wildcards: refGenome=loxAfr3
+    resources: tmpdir=/tmp, mem_mb=5000, mem_mib=4769
+DAG of jobs will be updated after completion.
+
+
+[Sun Jan 14 15:54:44 2024]
+rule compute_d4:
+    input: results/loxAfr3/bams/2982B_final.bam, results/loxAfr3/bams/2982B_final.bam.bai
+    output: results/loxAfr3/callable_sites/2982B.mosdepth.global.dist.txt, results/loxAfr3/callable_sites/2982B.per-base.d4, results/loxAfr3/callable_sites/2982B.mosdepth.summary.txt
+    log: logs/loxAfr3/compute_d4/2982B.txt
+    jobid: 22
+    benchmark: benchmarks/loxAfr3/compute_d4/2982B.txt
+    reason: Missing output files: results/loxAfr3/callable_sites/2982B.per-base.d4, results/loxAfr3/callable_sites/2982B.mosdepth.summary.txt; Input files updated by another job: results/loxAfr3/bams/2982B_final.bam, results/loxAfr3/bams/2982B_final.bam.bai
+    wildcards: refGenome=loxAfr3, sample=2982B
+    resources: tmpdir=/tmp, mem_mb=4000, mem_mib=3815
+
+
+[Sun Jan 14 15:54:44 2024]
+rule bam_sumstats:
+    input: results/loxAfr3/bams/2981B_final.bam, results/loxAfr3/bams/2981B_final.bam.bai, results/loxAfr3/data/genome/loxAfr3.fna
+    output: results/loxAfr3/summary_stats/2981B_coverage.txt, results/loxAfr3/summary_stats/2981B_AlnSumMets.txt
+    jobid: 8
+    reason: Missing output files: results/loxAfr3/summary_stats/2981B_AlnSumMets.txt, results/loxAfr3/summary_stats/2981B_coverage.txt; Input files updated by another job: results/loxAfr3/data/genome/loxAfr3.fna, results/loxAfr3/bams/2981B_final.bam.bai, results/loxAfr3/bams/2981B_final.bam
+    wildcards: refGenome=loxAfr3, sample=2981B
+    resources: tmpdir=/tmp, mem_mb=9000, mem_mib=8584
+
+
+[Sun Jan 14 15:54:44 2024]
+rule bam_sumstats:
+    input: results/loxAfr3/bams/2982B_final.bam, results/loxAfr3/bams/2982B_final.bam.bai, results/loxAfr3/data/genome/loxAfr3.fna
+    output: results/loxAfr3/summary_stats/2982B_coverage.txt, results/loxAfr3/summary_stats/2982B_AlnSumMets.txt
+    jobid: 12
+    reason: Missing output files: results/loxAfr3/summary_stats/2982B_coverage.txt, results/loxAfr3/summary_stats/2982B_AlnSumMets.txt; Input files updated by another job: results/loxAfr3/bams/2982B_final.bam, results/loxAfr3/data/genome/loxAfr3.fna, results/loxAfr3/bams/2982B_final.bam.bai
+    wildcards: refGenome=loxAfr3, sample=2982B
+    resources: tmpdir=/tmp, mem_mb=9000, mem_mib=8584
+
+
+[Sun Jan 14 15:54:44 2024]
+rule collect_covstats:
+    input: results/loxAfr3/callable_sites/2981B.mosdepth.summary.txt, results/loxAfr3/callable_sites/2982B.mosdepth.summary.txt
+    output: results/loxAfr3/summary_stats/all_cov_sumstats.txt
+    jobid: 20
+    reason: Missing output files: results/loxAfr3/summary_stats/all_cov_sumstats.txt; Input files updated by another job: results/loxAfr3/callable_sites/2981B.mosdepth.summary.txt, results/loxAfr3/callable_sites/2982B.mosdepth.summary.txt
+    wildcards: refGenome=loxAfr3
+    resources: tmpdir=/tmp
+
+[Sun Jan 14 15:54:44 2024]
+rule merge_d4:
+    input: results/loxAfr3/callable_sites/2981B.per-base.d4, results/loxAfr3/callable_sites/2982B.per-base.d4
+    output: results/loxAfr3/callable_sites/all_samples.d4
+    log: logs/loxAfr3/merge_d4/log.txt
+    jobid: 23
+    benchmark: benchmarks/loxAfr3/merge_d4/benchmark.txt
+    reason: Missing output files: results/loxAfr3/callable_sites/all_samples.d4; Input files updated by another job: results/loxAfr3/callable_sites/2982B.per-base.d4, results/loxAfr3/callable_sites/2981B.per-base.d4
+    wildcards: refGenome=loxAfr3
+    resources: tmpdir=/tmp, mem_mb=10000, mem_mib=9537
+
+
+[Sun Jan 14 15:54:44 2024]
+rule sort_gatherVcfs:
+    input: <TBD>, <TBD>
+    output: results/loxAfr3/test_raw.vcf.gz, results/loxAfr3/test_raw.vcf.gz.tbi
+    log: logs/loxAfr3/sort_gather_vcfs/test_log.txt
+    jobid: 1
+    benchmark: benchmarks/loxAfr3/sort_gather_vcfs/test_benchmark.txt
+    reason: Missing output files: results/loxAfr3/test_raw.vcf.gz; Input files updated by another job: results/loxAfr3/intervals/db_intervals/intervals.txt
+    wildcards: refGenome=loxAfr3, prefix=test
+    resources: tmpdir=/tmp, mem_mb=9000, mem_mib=8584
+
+
+[Sun Jan 14 15:54:44 2024]
+rule collect_sumstats:
+    input: results/loxAfr3/summary_stats/2981B_AlnSumMets.txt, results/loxAfr3/summary_stats/2982B_AlnSumMets.txt, results/loxAfr3/summary_stats/2981B_fastp.out, results/loxAfr3/summary_stats/2982B_fastp.out, results/loxAfr3/summary_stats/2981B_coverage.txt, results/loxAfr3/summary_stats/2982B_coverage.txt
+    output: results/loxAfr3/summary_stats/test_bam_sumstats.txt
+    jobid: 7
+    reason: Missing output files: results/loxAfr3/summary_stats/test_bam_sumstats.txt; Input files updated by another job: results/loxAfr3/summary_stats/2981B_AlnSumMets.txt, results/loxAfr3/summary_stats/2982B_coverage.txt, results/loxAfr3/summary_stats/2981B_coverage.txt, results/loxAfr3/summary_stats/2982B_AlnSumMets.txt, results/loxAfr3/summary_stats/2981B_fastp.out, results/loxAfr3/summary_stats/2982B_fastp.out
+    wildcards: refGenome=loxAfr3, prefix=test
+    resources: tmpdir=/tmp
+
+Would remove temporary output results/loxAfr3/callable_sites/2981B.per-base.d4
+Would remove temporary output results/loxAfr3/callable_sites/2982B.per-base.d4
+
+[Sun Jan 14 15:54:44 2024]
+rule create_cov_bed:
+    input: results/loxAfr3/summary_stats/all_cov_sumstats.txt, results/loxAfr3/callable_sites/all_samples.d4
+    output: results/loxAfr3/callable_sites/test_callable_sites_cov.bed
+    jobid: 19
+    benchmark: benchmarks/loxAfr3/covbed/test_benchmark.txt
+    reason: Missing output files: results/loxAfr3/callable_sites/test_callable_sites_cov.bed; Input files updated by another job: results/loxAfr3/summary_stats/all_cov_sumstats.txt, results/loxAfr3/callable_sites/all_samples.d4
+    wildcards: refGenome=loxAfr3, prefix=test
+    resources: tmpdir=/tmp
+
+[Sun Jan 14 15:54:44 2024]
+rule callable_bed:
+    input: results/loxAfr3/callable_sites/test_callable_sites_cov.bed, results/loxAfr3/callable_sites/test_callable_sites_map.bed
+    output: results/loxAfr3/test_callable_sites.bed, results/loxAfr3/callable_sites/test_temp_cov.bed
+    jobid: 18
+    benchmark: benchmarks/loxAfr3/callable_bed/test_benchmark.txt
+    reason: Missing output files: results/loxAfr3/test_callable_sites.bed; Input files updated by another job: results/loxAfr3/callable_sites/test_callable_sites_map.bed, results/loxAfr3/callable_sites/test_callable_sites_cov.bed
+    wildcards: refGenome=loxAfr3, prefix=test
+    resources: tmpdir=/tmp, mem_mb=10000, mem_mib=9537
+
+Would remove temporary output results/loxAfr3/callable_sites/test_temp_cov.bed
+
+[Sun Jan 14 15:54:44 2024]
+localrule all:
+    input: results/loxAfr3/test_raw.vcf.gz, results/loxAfr3/summary_stats/test_bam_sumstats.txt, results/loxAfr3/test_callable_sites.bed
+    jobid: 0
+    reason: Input files updated by another job: results/loxAfr3/summary_stats/test_bam_sumstats.txt, results/loxAfr3/test_raw.vcf.gz, results/loxAfr3/test_callable_sites.bed
+    resources: tmpdir=/tmp
+
+Job stats:
+job                     count
+--------------------  -------
+all                         1
+bam_sumstats                2
+bwa_map                     2
+callable_bed                1
+collect_covstats            1
+collect_fastp_stats         2
+collect_sumstats            1
+compute_d4                  2
+create_cov_bed              1
+create_db_intervals         1
+dedup                       2
+download_reference          1
+fastp                       2
+format_interval_list        1
+genmap                      1
+index_reference             1
+mappability_bed             1
+merge_d4                    1
+picard_intervals            1
+sort_gatherVcfs             1
+total                      26
+
+Reasons:
+    (check individual jobs above for details)
+    input files updated by another job:
+        all, bam_sumstats, bwa_map, callable_bed, collect_covstats, collect_fastp_stats, collect_sumstats, compute_d4, create_cov_bed, create_db_intervals, dedup, format_interval_list, genmap, index_reference, mappability_bed, merge_d4, picard_intervals, sort_gatherVcfs
+    missing output files:
+        bam_sumstats, bwa_map, callable_bed, collect_covstats, collect_fastp_stats, collect_sumstats, compute_d4, create_cov_bed, create_db_intervals, dedup, download_reference, fastp, format_interval_list, genmap, index_reference, mappability_bed, merge_d4, picard_intervals, sort_gatherVcfs
+
+This was a dry-run (flag -n). The order of jobs does not reflect the order of execution.
+The run involves checkpoint jobs, which will result in alteration of the DAG of jobs (e.g. adding more jobs) after their completion.

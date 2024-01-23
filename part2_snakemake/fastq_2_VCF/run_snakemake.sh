@@ -8,7 +8,7 @@
 #SBATCH --mem-per-cpu=5G         # memory per cpu-core (4G is default)
 #SBATCH --time 1-00:00:00        # DAYS-HOURS:MINUTES:SECONDS
 
-source /Genomics/argo/users/bjarnold/miniforge3/etc/profile.d/conda.sh
+source ~/miniforge3/etc/profile.d/conda.sh
 
 conda activate bioinformatics
 

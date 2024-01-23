@@ -1,0 +1,31 @@
+__default__:
+    time: 4319
+    nodes: 1
+    mem: 1000
+    output: "logs/slurm/slurm-%j.out"
+    
+bam2gvcf:
+    time: 1439
+gvcf2DB:
+    time: 1439
+    
+get_fastq_pe:
+    time: 4319
+index_ref:
+    time: 4319
+fastp:
+    time: 4319
+bwa_map:
+    time: 4319
+sort_bam:
+    time: 4319
+merge_bams:
+    time: 4319
+dedup:
+    time: 4319
+bam_sumstats:
+    time: 4319
+merge_bams:
+    time: 4319
+bedtools:
+    time: 4319

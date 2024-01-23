@@ -8,9 +8,9 @@
 #SBATCH --mem-per-cpu=4G         # memory per cpu-core (4G is default)
 #SBATCH --time 0-01:00:00        # DAYS-HOURS:MINUTES:SECONDS
 
-source /home/bjarnold/miniforge3/etc/profile.d/conda.sh
+source ~/miniforge3/etc/profile.d/conda.sh
 # activate any conda environment that has snakemake installed
-conda activate snakemake
+conda activate bioinformatics
 
 # Store the location of where you've installed this github repository
 GIT_REPO_DIR=/scratch/gpfs/bjarnold/intro_compbio_workflows_2024

@@ -9,13 +9,13 @@
 #SBATCH --time 0-12:00:00        # DAYS-HOURS:MINUTES:SECONDS
 
 # let the compute node know where conda is installed
-source /Genomics/argo/users/bjarnold/miniforge3/etc/profile.d/conda.sh
+source ~/miniforge3/etc/profile.d/conda.sh
 # activate the environment where you've installed the programs you need
 # NOTE, the latest version of freebayes 1.3.7 is broken, I went to the github repo, opened up the issues, and the first comment confirmed it was broken and said to use 1.3.6
 conda activate bioinformatics
 
 # location of reference genome
-REF='/Genomics/argo/users/bjarnold/teaching/coding_for_biologists_Nov2023/pipeline_class/data/genome/Loxodonta_africana.loxAfr3.dna.toplevel.fa'
+REF='../../../data/genome/Loxodonta_africana.loxAfr3.dna.toplevel.fa'
 # location of BAM file
 BAM_DIR='../02_BAM_deduplicated'
 # sample name

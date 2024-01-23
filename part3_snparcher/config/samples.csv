@@ -1,0 +1,3 @@
+BioSample,LibraryName,Run,refGenome,refPath,fq1,fq2
+2981B,2981B,1,loxAfr3,/scratch/gpfs/bjarnold/intro_compbio_workflows_2024/data/genome/Loxodonta_africana.loxAfr3.dna.toplevel.fa,/scratch/gpfs/bjarnold/intro_compbio_workflows_2024/data/fastq/2981B_1.fastq.gz,/scratch/gpfs/bjarnold/intro_compbio_workflows_2024/data/fastq/2981B_2.fastq.gz
+2982B,2982B,2,loxAfr3,/scratch/gpfs/bjarnold/intro_compbio_workflows_2024/data/genome/Loxodonta_africana.loxAfr3.dna.toplevel.fa,/scratch/gpfs/bjarnold/intro_compbio_workflows_2024/data/fastq/2982B_1.fastq.gz,/scratch/gpfs/bjarnold/intro_compbio_workflows_2024/data/fastq/2982B_2.fastq.gz

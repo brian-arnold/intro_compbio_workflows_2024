@@ -9,15 +9,15 @@
 #SBATCH --time 0-01:00:00        # DAYS-HOURS:MINUTES:SECONDS
 
 # let the compute node know where conda is installed
-source /Genomics/argo/users/bjarnold/miniforge3/etc/profile.d/conda.sh
+source ~/bjarnold/miniforge3/etc/profile.d/conda.sh
 # activate the environment where you've installed the programs you need
 conda activate bioinformatics
 
 # location of reference genome
-REF='/Genomics/argo/users/bjarnold/teaching/coding_for_biologists_Nov2023/pipeline_class/data/genome/Loxodonta_africana.loxAfr3.dna.toplevel.fa'
+REF='../../../data/genome/Loxodonta_africana.loxAfr3.dna.toplevel.fa'
 
 # location of fastq files
-FASTQ_DIR=/Genomics/argo/users/bjarnold/teaching/coding_for_biologists_Nov2023/pipeline_class/fastq_2_VCF_workflow/00_clean_fastq
+FASTQ_DIR=../00_clean_fastq
 R1=${FASTQ_DIR}/2982B_trim_1.fastq.gz
 R2=${FASTQ_DIR}/2982B_trim_2.fastq.gz
 

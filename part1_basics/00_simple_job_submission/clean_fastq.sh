@@ -9,7 +9,7 @@
 #SBATCH --time 1-00:00:00        # DAYS-HOURS:MINUTES:SECONDS
 
 # let the compute node know where conda is installed
-source /Genomics/argo/users/bjarnold/miniforge3/etc/profile.d/conda.sh
+source ~/miniforge3/etc/profile.d/conda.sh
 
 # activate the environment where you've installed the programs you need
 conda activate bioinformatics
@@ -20,7 +20,7 @@ conda activate bioinformatics
 #####
 
 # location of raw data
-FASTQ_DIR=/Users/bjarnold/Princeton_EEB/Teaching/comp_bio_workflow_eeb/data/fastq
+FASTQ_DIR=../../data/fastq
 # the name of the sample, only this variable needs to be changed to process other samples
 SAMPLE=2982B
 

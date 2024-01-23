@@ -71,9 +71,10 @@ Before we start submitting jobs to run software on the cluster, let's install th
 Let's make our conda environment:
 - `mamba create --name bioinformatics`
 - `mamba activate bioinformatics`
-- `mamba install --channel conda-forge --channel bioconda snakemake`
+- `mamba install --channel conda-forge --channel bioconda snakemake=7.32.4 -y`
     - taken from the [snakemake webpage](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html#:~:text=mamba%20create%20%2Dc%20conda%2Dforge%20%2Dc%20bioconda%20%2Dn%20snakemake%20snakemake)
-- `mamba install --channel bioconda fastp bwa sambamba freebayes`
+    - this is the latest version of snakemake before version 8, which made dramatic changes that broke code, so we'll use an older version for now.
+- `mamba install --channel bioconda fastp bwa sambamba freebayes samtools -y`
     - check anaconda.org to see what channel to use with `--channel`, or `-c` or for other specific instructions
 - tpe `bwa` to see that it successfully installed
 - `mamba deactivate`

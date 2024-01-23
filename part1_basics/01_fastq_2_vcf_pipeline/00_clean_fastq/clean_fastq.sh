@@ -9,14 +9,14 @@
 #SBATCH --time 1-00:00:00        # DAYS-HOURS:MINUTES:SECONDS
 
 # let the compute node know where conda is installed
-source /Genomics/argo/users/bjarnold/miniforge3/etc/profile.d/conda.sh
+source ~/bjarnold/miniforge3/etc/profile.d/conda.sh
 # activate the environment where you've installed the programs you need
 conda activate bioinformatics
 
 # Let's first store important information in variables, to make it easier to change later and to make the code more readable/organized
 
 # directory containing the fastq files
-FASTQ_DIR=/Genomics/argo/users/bjarnold/teaching/coding_for_biologists_Nov2023/pipeline_class/data/fastq
+FASTQ_DIR=../../../data/fastq
 
 # store the name of read1 and read2 in variables, to make it easier to change them later and make the code more readable/organized
 R1=${FASTQ_DIR}/2982B_1.fastq.gz
