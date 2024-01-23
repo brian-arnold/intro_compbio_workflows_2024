@@ -42,9 +42,9 @@ Many of these commands (cat/zcat, grep, head/tail, wc -l, ls) can be chained tog
 - `scp ./some_file bjarnold@della.princeton.edu:/home/bjarnold`
     - this command would be run on your local computer to copy a file to the cluster, in my home directory (so change this destination directory if you want to try it out :))
 
-## Using conda (and mamba) to install and manage software
+## Using Conda or Mamba to install and manage software
 
-Much research involves analyzing data using software developed by others. Conda is extremely useful for installing and managing this software. Most program I’ve wanted to use are installable via conda, and you can even manage R packages with conda.
+Much research involves analyzing data using software developed by others. Conda, and it's recently upgraded successor Mamba, are extremely useful for installing and managing this software. Most program I’ve wanted to use are installable via conda, and you can even manage R packages with conda.
 
 ### Why should you use conda?
 
@@ -84,8 +84,6 @@ In addition to these conda commands, I also use the following to remove an envir
 - `mamba remove -n env_name --all`
     - where your replace `env_name` with the name of your environment
 
-
-
 ### Submitting jobs
 
 SLURM commands I frequently use to submit jobs and monitor their progress
@@ -101,4 +99,9 @@ SLURM commands I frequently use to submit jobs and monitor their progress
 - submit as job using 'sbatch'
 - run as bash script using 'bash'
 
-#### View scripts in 01_fastq_2_vcf_pipeline
+#### View scripts in 01_fastq_2_vcf_workflow
+
+- see `slides/part1_basics.pptx` for intro to this workflow
+- go through scripts for each step, where steps are in directories labelled by the output file type
+- for simplicity, this workflow only processes a single sample even though we have two
+- you can change the NAME variable to process the other sample
