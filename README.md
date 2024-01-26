@@ -1,6 +1,6 @@
 # Introduction to computational workflows in biology
 
-If you'd like to actively participate, please follow the steps below. If any of the following looks scary, or you have any questions, please email me and we can go through it together! Setting all of this up will be useful for your own research! Whether it's on the cluster or your laptop.
+If you'd like to actively participate, please follow the steps below. If any of the following looks scary, or you have any questions, please email me and we can go through it together! Setting all of this up will be useful for your own research, whether it's on the cluster or your laptop.
 
 #### 1. See [this page](https://researchcomputing.princeton.edu/systems/della) about getting access to Princeton's Della computing cluster if you dont already have an account.
 
@@ -22,17 +22,17 @@ You can install these tools, which are further explained in [part 1](/part1_basi
 5. You may need to log back into the cluster before everything works as expected.
     - Type `conda --help` and `mamba --help` to ensure they're installed, you should see a lengthy explanation of how to use the programs.
 
-#### 3. Download code and example data
+#### 3. Download code and (optional) example data
 
 - Using the `cd` command, move into a directory on the cluster in which you have more than **~30** GB of space.
-    - E.g. I'm using `/scratch/gpfs/bjarnold/`, and you can get a similar directory in the scratch directory.
+    - E.g. I'm using `/scratch/gpfs/bjarnold/`, and you can get a similar directory in the scratch space on Della.
 - Clone this repository: `git clone https://github.com/brian-arnold/intro_compbio_workflows_2024`.
 - Move into the repository: `cd intro_compbio_workflows_2024`.
 - Download African elephant WGS data (~6GB): `wget -O data.tar.gz https://zenodo.org/records/10452771/files/data.tar.gz?download=1`.
 - Unpack the tarball we just downloaded: `tar zxvf data.tar.gz`.
 - You should now see a directory called `data` that has two subdirectories: `fastq` and `genome`.
 
-#### 4. VS Code installation (Optional; if you skip this step, you can follow along during the workshop using a terminal window) 
+#### 4. VS Code installation (Also optional; if you skip this step, you can follow along during the workshop using a terminal window) 
 
 - I now use VS Code for all computational work that I do. It's amazing and extremely popular. You can download it [here](https://code.visualstudio.com/download).
 - VS Code is very simple, and the user makes it more complex by installing plugins. My two favorite are:
