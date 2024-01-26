@@ -17,10 +17,10 @@ Here are some Linux commands I use a majority of the time:
 - **head** and **tail** (to display the "head" or "tail" of a file, using with -n 5 only shows the first/last 5 lines)
 - **cp** and **scp** ("copy", to copy files in one directory to another; scp is "secure" copy to transfer files from your personal computer onto the cluster)
 - **ssh** ("secure shell", to log into a remote server)
-- **grep '<pattern>'** (grab all lines from a file that contain <pattern>)
-- **gzip** and **gunzip**
-- **tar** 
-- **nano** and **vim** (text editors for the terminal, but editing files with Vscode is easier)
+- **grep 'pattern'** (grab all lines from a file that contain 'pattern', this command is extremely useful for probing very large files)
+- **gzip** and **gunzip** (compress and decompress, respectively, files that have a `.gz` suffix)
+- **tar** (this essentially does the same as gzip/gunzip above, but it acts on entire directories and subdirectories)
+- **nano** and **vim** (text editors for the terminal, but editing files with VS Code is easier :) )
 - there are other useful commands, but I use them < 1% of the time. For anything else you need, just ask chatGPT
 
 ### Examples
@@ -33,7 +33,6 @@ Many of these commands (cat/zcat, grep, head/tail, wc -l, ls) can be chained tog
 - `ls` or `ls -ltrh`
 - `head 2981B_1.fastq.gz`
 - `zcat 2981B_1.fastq.gz | head`
-- `zcat 2981B_1.fastq.gz | wc -l`
 - `cd ../genome`
 - `head Loxodonta_africana.loxAfr3.dna.toplevel.fa`
 - `grep '>' Loxodonta_africana.loxAfr3.dna.toplevel.fa | wc -l` 
@@ -41,6 +40,10 @@ Many of these commands (cat/zcat, grep, head/tail, wc -l, ls) can be chained tog
 - `nano Loxodonta_africana.loxAfr3.dna.toplevel.dict`
 - `scp ./some_file bjarnold@della.princeton.edu:/home/bjarnold`
     - this command would be run on your local computer to copy a file to the cluster, in my home directory (so change this destination directory if you want to try it out :))
+
+#### Exercise
+We sent our DNA samples to a sequencing facility, and they later sent us some FASTQ files, 2 for each sample (the forward and reverse read; the ends of each DNA molecule are sequenced separately). In these FASTQ files, each sequencing read has 4 lines of text, one of which is the actual sequencing read. The sequencing facility promised us *at least* 30 million reads for each sample. How many reads did we get for sample `2981B`? Did they deliver on their promise?
+
 
 ## Using Conda or Mamba to install and manage software
 
@@ -65,7 +68,6 @@ Let's start by finding out exactly where miniforge3 was installed on the cluster
 
 `/home/bjarnold/miniforge3`
 
-
 Before we start submitting jobs to run software on the cluster, let's install this software in our first conda environment. To see if software exists on anaconda and how to we might install it, I always quick google the name of the program along with anaconda.
 
 Let's make our conda environment:
@@ -84,24 +86,50 @@ In addition to these conda commands, I also use the following to remove an envir
 - `mamba remove -n env_name --all`
     - where your replace `env_name` with the name of your environment
 
-### Submitting jobs
+#### Exercise
 
-SLURM commands I frequently use to submit jobs and monitor their progress
-- `sbatch`
-- `sacct`
-- `sacct --format="jobid,jobname,maxrss,reqmem,ncpu,elapsed,timelimit,state"`
-    - i refuse to memorize this, so I put the following in my `.bashrc` file in my home directory: `alias sstats='sacct --format="jobid,jobname,maxrss,reqmem,ncpu,elapsed,timelimit,state"'`
+We have many sequences of unknown origin, and we want to use BLAST on the command line to automate the process of finding which species each sequence belongs to. Follow these steps that I typically do when trying to use new software:
+1. Is BLAST available on Anaconda? Search 'BLAST' on [Anaconda.org](https://anaconda.org/), or google search 'anaconda blast'
+2. If so, use mamba to create a new environment called 'blast', and install the program.
+3. Confirm that BLAST was successfully installed.
+
+Additional info for part 3: in the context of computing, 'bin' is short for 'binary', and folders on computers called 'bin' typically contain files that are directly executable by the computer (i.e. can be run as a program). All of the executable files/programs we just installed in this environment should be located in `~miniforge3/envs/blast/bin`, assuming you've installed conda/mamba in your home directory. Check this location for all the programs you just installed. Sometimes I install a program via anaconda, but the name of the command line executable file differs from the name of the program! I find what I need in this `bin` directory :). You can also figure this out by reading the BLAST manual online.
+
+After you spent weeks using BLAST, you read some papers and found out there is a much better approach to solve your problem. Remove the 'blast' environment using `mamba remove` briefly described above.
+
+### Submitting jobs on Princeton's Della cluster
+
+When you log into Princeton's Della cluster using a terminal, you get put on a 'login' node that you can use to browse files and do work that doesn't require much computing power, such as installing programs using mamba, or maybe using python to quick divide a number by 4. 
+
+When you want to do heavy computational work, you need to write out all the comamnds you want to use in a file, and submit this file as a 'job'. This file then gets sent to a compute node that's actually meant to do lots of computation.
+
+Della, like computing clusters at other universities, uses software called 'Slurm' to schedule jobs. When you submit your job, it will be put in a queue, where it could sit for some period of time in a `PENDING` state, depending on how much you've been using the cluster lately. It will eventually start `RUNNING`, and after some time it will have then have one of the following statuses: `COMPLETED`, `FAILED`, or `TIMEOUT`. The first one is good, second one is bad, and the third one can be easily fixed by changing the time limit you request (more on this soon).
+
+Before we start talking more about submitting jobs to the cluster, let's just look at an example
+
+#### View shell script script in 00_simple_job_submission dir
+
+The script `clean_fastq.sh` is an example of a shell script (it has the `.sh` file extension) used to submit a job to run a program. Here, we are running the program 'fastp' to clean up the raw FASTQ files for elephant sample `2982B`. If you scroll all the way to the bottom, this is the command we're actually trying to run, and the stuff above just prepares everything in an organized way, and makes a request to the computing cluster for a specific amount of resources, such as CPUs, memory, and time.
+
+Let's go through the `clean_fastq.sh` script.
+
+We can submit this command as a job using `sbatch clean_fastq.sh`.
+
+Alternatively, if we want to run this code on the spot, we can use `bash clean_fastq.sh`. Unless the code is very simple, I would not do this on Della as you'd be running a program on a login node. However, if you're running programs on your own computer, e.g. using the Terminal app on your Mac, you would use the `bash` command.
+
+Here are some commands I frequently use on the cluster:
+- `sbatch`: to submit jobs
+- `sacct`: to see the status of of all your jobs since last midnight
+- `sacct --format="jobid,jobname,maxrss,reqmem,ncpu,elapsed,timelimit,state"`: more info about jobs
+    - I refuse to memorize this, so I put the following in my `.bashrc` file in my home directory: `alias sstats='sacct --format="jobid,jobname,maxrss,reqmem,ncpu,elapsed,timelimit,state"'`
     - then I just type `sstats` instead!
-- `checkquota`
-
-#### View script in 00_simple_job_submission dir
-
-- submit as job using 'sbatch'
-- run as bash script using 'bash'
+- `squeue -u $USER --start` to see when your job will start running
+    - again, I just put `alias jobstart='squeue -u $USER --start'` in my `.bashrc` file and type `jobstart` instead of the longer, uglier command
+- `checkquota`: to see how much space I have left!
 
 #### View scripts in 01_fastq_2_vcf_workflow
 
 - see `slides/part1_basics.pptx` for intro to this workflow
 - go through scripts for each step, where steps are in directories labelled by the output file type
 - for simplicity, this workflow only processes a single sample even though we have two
-- you can change the NAME variable to process the other sample
+- you can change the `NAME` variable to process the other sample
