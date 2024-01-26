@@ -133,3 +133,7 @@ Here are some commands I frequently use on the cluster:
 - go through scripts for each step, where steps are in directories labelled by the output file type
 - for simplicity, this workflow only processes a single sample even though we have two
 - you can change the `NAME` variable to process the other sample
+
+# Next session
+
+We will learn the very basics of snakemake, a 'workflow language' based on python that will help us automate running many tasks, e.g. running the same program but on hundreds or thousands of files, or running many programs once in a serial workflow, but repeating this entire workflow for many samples!
