@@ -1,5 +1,5 @@
 
-# Part 1: linux commands, installing software, and submitting jobs on Princeton's Della computing cluster.
+# Part 1: linux commands, installing software, submitting jobs on Princeton's Della computing cluster, organizing scripts into workflows.
 
 ## Linux commands to navigate through directories
 
@@ -7,6 +7,7 @@ In order to explore files and directories on Princeton's computing cluster, it i
 
 Here are some Linux commands I use a majority of the time:
 
+- **pwd** ("present working directory", to see the current directory you're in)
 - **cd** ("change directories", to move around the file system)
 - **wc -l** ("word count", to count the number of lines (-l) in a file)
 - **cat** and **zcat** ("concatenate", to combine files or just display the contents of a file to the screen, zcat is for compressed files)
@@ -42,7 +43,7 @@ Many of these commands (cat/zcat, grep, head/tail, wc -l, ls) can be chained tog
     - this command would be run on your local computer to copy a file to the cluster, in my home directory (so change this destination directory if you want to try it out :))
 
 #### Exercise
-We sent our DNA samples to a sequencing facility, and they later sent us some FASTQ files, 2 for each sample (the forward and reverse read; the ends of each DNA molecule are sequenced separately). In these FASTQ files, each sequencing read has 4 lines of text, one of which is the actual sequencing read. The sequencing facility promised us *at least* 30 million reads for each sample. How many reads did we get for sample `2981B`? Did they deliver on their promise?
+We sent our DNA samples to a sequencing facility, and they later sent us some FASTQ files, 2 for each sample (the forward and reverse read; the ends of each DNA molecule are sequenced separately). In these FASTQ files, each sequencing read has 4 lines of text, one of which is the actual sequencing read. The sequencing facility promised us *at least* 30 million reads for each sample. How many reads did we get for sample `2981B`? Did they give us what they promised?
 
 
 ## Using Conda or Mamba to install and manage software
@@ -73,12 +74,12 @@ Before we start submitting jobs to run software on the cluster, let's install th
 Let's make our conda environment:
 - `mamba create --name bioinformatics`
 - `mamba activate bioinformatics`
+- `mamba install --channel bioconda fastp bwa sambamba freebayes samtools -y`
+    - check anaconda.org to see what channel to use with `--channel`, or `-c` or for other specific instructions
+- type `bwa` to see that it successfully installed
 - `mamba install --channel conda-forge --channel bioconda snakemake=7.32.4 -y`
     - taken from the [snakemake webpage](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html#:~:text=mamba%20create%20%2Dc%20conda%2Dforge%20%2Dc%20bioconda%20%2Dn%20snakemake%20snakemake)
     - this is the latest version of snakemake before version 8, which made dramatic changes that broke code, so we'll use an older version for now.
-- `mamba install --channel bioconda fastp bwa sambamba freebayes samtools -y`
-    - check anaconda.org to see what channel to use with `--channel`, or `-c` or for other specific instructions
-- tpe `bwa` to see that it successfully installed
 - `mamba deactivate`
 - `mamba env list` to see the new environment we just created, i use this to remind myself of environment names!
 
@@ -95,13 +96,16 @@ We have many sequences of unknown origin, and we want to use BLAST on the comman
 
 Additional info for part 3: in the context of computing, 'bin' is short for 'binary', and folders on computers called 'bin' typically contain files that are directly executable by the computer (i.e. can be run as a program). All of the executable files/programs we just installed in this environment should be located in `~miniforge3/envs/blast/bin`, assuming you've installed conda/mamba in your home directory. Check this location for all the programs you just installed. Sometimes I install a program via anaconda, but the name of the command line executable file differs from the name of the program! I find what I need in this `bin` directory :). You can also figure this out by reading the BLAST manual online.
 
-After you spent weeks using BLAST, you read some papers and found out there is a much better approach to solve your problem. Remove the 'blast' environment using `mamba remove` briefly described above.
+After you spent months using BLAST, you read some papers and found an easy-to-use and much-more-appropriate approach to solve your problem. Remove the 'blast' environment using `mamba remove` briefly described above.
 
-### Submitting jobs on Princeton's Della cluster
+> A month in the lab can save you an hour in the library.
+> -- Frank Westheimer
+
+## Submitting jobs on Princeton's Della cluster
 
 When you log into Princeton's Della cluster using a terminal, you get put on a 'login' node that you can use to browse files and do work that doesn't require much computing power, such as installing programs using mamba, or maybe using python to quick divide a number by 4. 
 
-When you want to do heavy computational work, you need to write out all the comamnds you want to use in a file, and submit this file as a 'job'. This file then gets sent to a compute node that's actually meant to do lots of computation.
+When you want to do heavy computational work, you need to write out all the commands you want to use in a file, and submit this file as a 'job'. This file then gets sent to a compute node that's actually meant to do lots of computation.
 
 Della, like computing clusters at other universities, uses software called 'Slurm' to schedule jobs. When you submit your job, it will be put in a queue, where it could sit for some period of time in a `PENDING` state, depending on how much you've been using the cluster lately. It will eventually start `RUNNING`, and after some time it will have then have one of the following statuses: `COMPLETED`, `FAILED`, or `TIMEOUT`. The first one is good, second one is bad, and the third one can be easily fixed by changing the time limit you request (more on this soon).
 
@@ -109,13 +113,19 @@ Before we start talking more about submitting jobs to the cluster, let's just lo
 
 #### View shell script script in 00_simple_job_submission dir
 
-The script `clean_fastq.sh` is an example of a shell script (it has the `.sh` file extension) used to submit a job to run a program. Here, we are running the program 'fastp' to clean up the raw FASTQ files for elephant sample `2982B`. If you scroll all the way to the bottom, this is the command we're actually trying to run, and the stuff above just prepares everything in an organized way, and makes a request to the computing cluster for a specific amount of resources, such as CPUs, memory, and time.
+The script `clean_fastq.sh` is an example of a shell script (it has the `.sh` file extension) used to submit a job to run a program. We could type all this information on the command line, line by line, but here we've typed everything out so it can get run all at once or submitted as a job.
 
-Let's go through the `clean_fastq.sh` script.
+Let's go through the `clean_fastq.sh` script. 
+- This script runs the program 'fastp' to clean up the raw FASTQ files for elephant sample `2982B`.
+- If you scroll all the way to the bottom, this is the command we're actually trying to run, and the stuff above just prepares everything in an organized way. I figured out what to put here either by googling 'fastp' and finding the manual, or just typing `fastp --help` to see what the options are! Most programs have this option of typing `--help` to see how it works.
+- At the top, we make requests to the computing cluster for a specific amounts of resources, such as CPUs, memory, and time.
+- We let the compute node know where we've installed conda/mamba, so that we can then activate it
+- Then we store a bunch of text the program needs into variables to make it more organized, easier to read, easier to adapt to other samples, and potentially easier to debug. When we eventually use the program, we just feed it these variables instead of really long file paths tht can make it difficult to see what's being done.
+- Linux runs this script line by line, such that a new line is analagous to pressing enter on the command line. However, instead of typing the `fastp` command and all it's arguments in a single line, I used backslashes `\` to have Linux ignore newlines so that we could spread the full command across many lines to make it more readable. Consequently, if there are backslashes at the end of lines, Linux also includes everything on the following line before running it. 
 
 We can submit this command as a job using `sbatch clean_fastq.sh`.
 
-Alternatively, if we want to run this code on the spot, we can use `bash clean_fastq.sh`. Unless the code is very simple, I would not do this on Della as you'd be running a program on a login node. However, if you're running programs on your own computer, e.g. using the Terminal app on your Mac, you would use the `bash` command.
+Alternatively, if we want to run this code directly on the command line, we can use `bash clean_fastq.sh`. Unless the code is very simple, I would not do this on Della as you'd be running a program on a login node. However, if you're running programs on your own computer, e.g. using the Terminal app on your Mac, you would use the `bash` command.
 
 Here are some commands I frequently use on the cluster:
 - `sbatch`: to submit jobs
@@ -127,12 +137,21 @@ Here are some commands I frequently use on the cluster:
     - again, I just put `alias jobstart='squeue -u $USER --start'` in my `.bashrc` file and type `jobstart` instead of the longer, uglier command
 - `checkquota`: to see how much space I have left!
 
+
+## Organizing scripts into a workflow
+
 #### View scripts in 01_fastq_2_vcf_workflow
 
 - see `slides/part1_basics.pptx` for intro to this workflow
 - go through scripts for each step, where steps are in directories labelled by the output file type
 - for simplicity, this workflow only processes a single sample even though we have two
 - you can change the `NAME` variable to process the other sample
+
+# Summary
+- Using the command line on your computer can be useful but is required to use Princeton's Della cluster. To use the command line, you need to use commands to navigate the file system. See above the handful of Linux commands I routinely use.
+- Using conda/mamba to install other command line programs is extremely useful. Conda/mamba also has some subcommand to create new environments and deactivate them, etc. See above the handful of conda/mamba commands I routinely use.
+- If you want to run a command line tool in a bash script, put everything you want to run in a `file.sh` file, including the conda/mamba environment you want to activate. Then, run the script using `bash file.sh` or submit it as a job using `sbatch file.sh` (but remember to include the Slurm directives at the top of the file to request resources! You can just copy/paste these from another file).
+- If you're running many programs in a workflow, organize your scripts into informatively-named directories that are prefixed with a number to indicate the order in which the scripts were run. See `01_fastq_2_vcf_workflow` as an example.
 
 # Next session
 

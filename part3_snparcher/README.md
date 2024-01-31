@@ -3,11 +3,20 @@
 NOTE: I do not recommend running this on your end as it requires considerable computational resources. Perhaps try with a *few* of your own samples you intend to use for research to avoid needlessly using computational resources. If this works, you can 
     1. remove or rename the final output file `*_raw.vcf.gz` in the `results` directory to make snpArcher see that the workflow is now incomplete
     2. run snpArcher on the rest of your samples
-        - *(\*warning\* unsolicited life advice: )* you should start small/simple and if that works then go large/complex. Understanding or debugging large/complex things is more difficult and time-consuming, and if you encounter these issues in the small/simple case then it's easier to solve these problems quickly.
 
 Move into the `intro_compbio_workflows_2024/part3_snparcher` directory and download the snpArcher code using:
 
 `git clone https://github.com/harvardinformatics/snpArcher.git`
+
+The instructions recommend making a new conda environment using:
+
+`mamba create -c conda-forge -c bioconda -n snparcher snakemake`
+
+In addition to this, I do the following to help circumvent an error:
+
+`mamba install -n snparcher -c conda-forge mamba`
+
+
 
 ### Configuration files
 
