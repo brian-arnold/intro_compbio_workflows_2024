@@ -1,5 +1,5 @@
 
-# Part 1: 
+# Part 1: Intro to computational workflows
 ## Context
 
 This session will cover the basics of installing and running software on the **command line**, either on your computer or Princeton's computing cluster.

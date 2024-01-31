@@ -1,6 +1,22 @@
-Content for this part of the workshop can be in the powerpoint slides.
+# Part 2: Intro to Snakemake
 
-## Simple workflow
+## Context
+
+In biology, Snakemake is a very popular "workflow language" that helps automate running command line tools. Automation can be very helpful if you have to process a lot of samples, and/or you want to repeat everything on many other species.
+
+For tasks like detecting mutations from DNA sequencing data, one always has to run a workflow to first process the data. Making this easier and more automated can make you more efficient and leave you more time to spend on interesting analyses!
+
+E.g. I recently worked with Sarah Kocher. We were interested in looking for DNA motifs in enhancer regions in bee genomes. However, we didn't know exactly how to process the data and filter the resutls. By automating everything with Snakemake, I was able to process data for 13 different species in 4 different ways and make plots of the results. This allowed us to use ***data to make decisions*** instead of just going off hunches, which can be sensible but still wrong!
+
+For more introduction to Snakemake, please see the powerpoint slides `slides/part2_snakemake.pptx`.
+
+## Overview
+1. a simple workflow
+2. a workflow for *multiple* samples
+3. getting snakemake to *parallelize* computation (make it go much faster)
+4. an example of a biology workflow
+
+## 1.) Simple workflow
 
 - Move into the simple directory with `cd simple`
 - There are 3 RNA sequences we'll use as input data in `rna_sequences.txt`
@@ -14,7 +30,7 @@ Content for this part of the workshop can be in the powerpoint slides.
 - I also provide a script `run_snakemake_as_job.sh` to submit the workflow as a job, but this example is so simple we can just run it directly on the login node! You may run this using `sbatch run_snakemake_as_job.sh`.
 
 
-## Simple workflow with 'wildcards'
+## 2.) Simple workflow with 'wildcards'
 
 - Move into the `simple_wildcards` directory.
 - There are again 3 RNA sequences, but they're separated into different files to illustrate how snakemake can automate data processing across a collection of files.
@@ -22,7 +38,7 @@ Content for this part of the workshop can be in the powerpoint slides.
 - Doing a dry run with `snakemake --dryrun` shows that snakemake is now applying rules more times than the previous, simpler workflow: it's applying the rules to convert RNA to DNA and then take the reverse complement to each file.
 - Run the snakemake workflow using `snakemake`. This workflow takes longer because I introduced a `sleep` command to simulate software taking a bit of time to do computation. It should finish in ~30 seconds.
 
-### Using snakemake for parallel computing
+## 3.) Using snakemake for parallel computing
 
 - Remove the output files we just created using `rm sample*` and `rm all_samples_reverse_complement.txt`.
 - Snakemake identifies which rules are independent of each other, and if you give it additional cores, it will run these rules in parallel and finish sooner.
