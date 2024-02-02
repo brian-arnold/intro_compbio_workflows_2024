@@ -8,16 +8,16 @@ You can also follow along on any other computing cluster you have access to or y
 
 #### 2. **We will use conda and mamba -- further explained in [part 1](/part1_basics/) of this workshop -- to install and manage software**. 
 
-If you already have either one of these already installed, you can feel free to ignore this step. However, I suggest installing it the way I have done here. Up to you! If you don't, everything we do in the workshop *should* still work, but you may have to use the conda command instead of the mamba command (which is much faster).
+If you have either one of these already installed, you can feel free to ignore this step. However, I suggest installing it the way I have done here. Up to you! If you don't, everything we do in the workshop *should* still work, but you may have to use the conda command instead of the mamba command (which is much faster; but more of this in [part 1](/part1_basics/)).
 
 You can install conda/mamba by following the steps below on the command line using a terminal window. The instructions are for installing them on the Della cluster, but you can also do this on your personal computer by skipping step 1. When I get a new work laptop or access to a new computing cluster, the *first* thing I do is install conda/mamba.
 
 1. Once you've opened a Terminal window, log into the Della cluster using `ssh <YourNetID>@della.princeton.edu`, where you'd replace `<YourNetID>` with the appropriate string, mine is `bjarnold`.
 2. Type `cd` to go to your home directory on the cluster, if you aren't there already.
-3. Copy/paste `wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh` to the command line. This will download a script that will automate the installation of conda and mamba.
+3. Copy/paste this highlighted text to the command line: `wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh`. Press Enter. This will download a script that will automate the installation of conda and mamba.
     - If you have any previous installation of conda that isn't from the miniforge repository, I personally suggest removing all of them and starting from scratch. Reinstalling programs should go *very quickly*.
         - e.g. I removed my old conda installation, from [miniconda](https://docs.conda.io/projects/miniconda/en/latest/), via `rm -r /home/bjarnold/miniconda3`
-4. To install conda/mamba, type `bash Miniforge3-Linux-x86_64.sh`, where the second part is the `.sh` file you just downlaoded in the previous step. Follow the instructions on the screen.
+4. To install conda/mamba, type `bash Miniforge3-Linux-x86_64.sh`, where the second part is the `.sh` file you just downloaded in the previous step. Follow the instructions on the screen:
     - Press ENTER to "read" the license agreement, keep pressing spacebar until you reach the end, type 'yes' to accept the terms.
     - By default, it will install miniforge3 in your home directory but asks for confirmation. I just press ENTER to confirm, but feel free to specify another location.
     - When it asks 'Do you wish the installer to initialize Miniforge3 by running conda init?', type 'yes'.
@@ -28,7 +28,7 @@ You can install conda/mamba by following the steps below on the command line usi
 #### 3. Download code and (optional) example data
 
 - Using the `cd` command, move into a directory on the cluster in which you have more than **~30** GB of space.
-    - E.g. I'm going to do `cd /scratch/gpfs/bjarnold/`. You can get a similar directory in the scratch space on Della.
+    - E.g. I'm going to do `cd /scratch/gpfs/bjarnold/` on the Della cluster. You can get a similar directory in the scratch space on Della.
 - Clone this repository: `git clone https://github.com/brian-arnold/intro_compbio_workflows_2024`.
 - Move into the repository: `cd intro_compbio_workflows_2024`.
 - Download African elephant WGS data (~6GB): `wget -O data.tar.gz https://zenodo.org/records/10452771/files/data.tar.gz?download=1`.
@@ -36,10 +36,10 @@ You can install conda/mamba by following the steps below on the command line usi
 - You should now see a directory called `data` that has two subdirectories: `fastq` and `genome`.
 
 #### 4. OPTIONAL: VS Code installation 
-- If you skip this step, you can follow along during the workshop using a terminal window. I'll use a terminal window within VS code.
+- If you skip this step, you can follow along during the workshop using a terminal window. I'll use a terminal window within VS code. I kept details here a little sparse because I don't know how many will be interested in using it.
 - I now use VS Code for all computational work that I do. It's amazing and extremely popular. You can download it [here](https://code.visualstudio.com/download).
 - VS Code is very simple, and the user makes it more complex by installing plugins. My two favorite are:
-    - `Remote - SSH` to use VS code to log into a remote server (e.g. the Della cluster)
-    - `GitHub Copilot` so that AI helps me code everytime I open a text editor in VS Code.
+    - `Remote - SSH` to log into a remote server (e.g. the Della cluster)
+    - `GitHub Copilot` so that AI helps me code everytime I open a text editor in VS Code. This plugin has been *life changing*. Coding in python is much faster and cleaner. You can use it with R, but you have to use a Jupyterlab notebook, not R Studio :(.
     
 
