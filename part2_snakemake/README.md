@@ -6,7 +6,11 @@ In biology, Snakemake is a very popular "workflow language" that helps automate 
 
 For tasks like detecting mutations from DNA sequencing data, one always has to run a workflow to first process the data. Making this easier and more automated can make you more efficient and leave you more time to spend on interesting analyses!
 
-E.g. I recently worked with Sarah Kocher. We were interested in looking for DNA motifs in enhancer regions in bee genomes. However, we didn't know exactly how to process the data and filter the resutls. By automating everything with Snakemake, I was able to process data for 13 different species in 4 different ways and make plots of the results. This allowed us to use ***data to make decisions*** instead of just going off hunches, which can be sensible but still wrong!
+E.g. I recently worked with Sarah Kocher. We were interested in looking for DNA motifs in enhancer regions in bee genomes. However, we didn't know exactly how to process the data and filter the resutls. By automating everything with Snakemake, I was able to process data for 13 different species in 4 different ways and make plots of the results. This allowed us to use ***data to make decisions*** instead of just going off hunches, which can be sensible and logical but still wrong!
+
+This workshop serves 2 purposes
+1. a gentle introduction to Snakemake for the next session of this workshop that explains how to use a published Snakemake workflow to detect mutaitons in WGS data
+2. The content here can also be a starting point to make your own analyses in Snakemake!
 
 For more introduction to Snakemake, please see the powerpoint slides `slides/part2_snakemake.pptx`.
 
@@ -24,7 +28,7 @@ For more introduction to Snakemake, please see the powerpoint slides `slides/par
     - This is a meaningless workflow but will help explain how snakemake works in simple terms! We'll discuss meaningful workflows soon!
 - Inspect `Snakefile`
 - Ensure the code isn't bugged and get an idea of what it will do using `snakemake --dryrun`
-    - By default, snakemake will automaticallyrecognize the `Snakefile` as the source code. If you name it something else, you need to use `snakemake --dryrun --snakefile Some_other_name`
+    - By default, snakemake will automatically recognize the `Snakefile` as the source code. If you name it something else, you need to use `snakemake --dryrun --snakefile Some_other_name`
 - Looks good! Now run the workflow by simple typing `snakemake`.
 - We now have out output file `reverse_complement.txt`.
 - I also provide a script `run_snakemake_as_job.sh` to submit the workflow as a job, but this example is so simple we can just run it directly on the login node! You may run this using `sbatch run_snakemake_as_job.sh`.
@@ -46,3 +50,7 @@ For more introduction to Snakemake, please see the powerpoint slides `slides/par
 - Move into the directory `job_submission_scripts`. You'll find a script `01_run_snakemake_as_single_job.sh` that submits this as a job in which we request 3 cores. Note we use `--snakefile ../Snakefile` to let snakemake know where the Snakefile is because it isn't in the directory in which we run snakemake, and we also use the `--directory` option since the data are stored elsewhere.
 - This is nice, but what if we are running snakemake on hundreds or thousands of files? We cannot request hundreds of cores in a single job due to how the computing cluster is designed. Instead, snakemake can ***communicate with the cluster to submit each independent task as a separate job***
 - See `02_run_snakemake_as_multi_jobs.sh` for how to do this, and run it using the `sbatch` command. We're using the `--profile` option to give snakemake a bunch of information, all within the `snakemake_profiles/slurm` directory.
+
+## 4.) A simple snakemake workflow to detect mutations from WGS data
+- For a broad overview of this workflow, see `slides/part2_snakemake.pptx`.
+- 95% of this code was written by chatGPT4. I just had to give a program (bwa) an extra argument so that the name of the individual was included in the BAM file header, which is a requirement for some downstream variant callers.
