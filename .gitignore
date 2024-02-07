@@ -8,6 +8,7 @@
 /part1_basics/01_fastq_2_vcf_pipeline/03_VCF/output/*
 
 /part2_snakemake/simple_wildcards/.snakemake/*
+/part2_snakemake/simple_wildcards2/.snakemake/*
 /part2_snakemake/fastq_2_VCF/.snakemake/*
 /part2_snakemake/simple/.snakemake/*
 /part2_snakemake/fastq_2_VCF/output/*
