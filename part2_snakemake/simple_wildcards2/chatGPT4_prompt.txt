@@ -1,0 +1,5 @@
+I'm interested in making a single step snakemake workflow to process FASTQ files using fastp.
+
+I have some FASTQ files for 2 samples. I will put these sample names in a list. Each sample has two FASTQ files that end in "_1.fastq.gz" and "_2.fastq.gz". 
+
+I want to give both of these files to the program fastp to filter them. Can you write a snakemake workflow that does this?

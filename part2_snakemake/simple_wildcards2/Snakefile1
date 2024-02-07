@@ -1,14 +1,14 @@
 
 SAMPLE="2982B"
 
-fastq_dir="../../../data/fastq"
+fastq_dir="../../data/fastq"
 
 
 # Rule All
 rule all:
     input:
-        r1=fastq_dir + "/" + SAMPLE + "_trim_1.fastq.gz",
-        r2=fastq_dir + "/" + SAMPLE + "_trim_2.fastq.gz"
+        r1="./" + SAMPLE + "_trim_1.fastq.gz",
+        r2="./" + SAMPLE + "_trim_2.fastq.gz"
 
 # Rule to collect all reverse complements into one file
 rule fastp:
@@ -16,8 +16,8 @@ rule fastp:
         r1=fastq_dir + "/" + SAMPLE + "_1.fastq.gz",
         r2=fastq_dir + "/" + SAMPLE + "_2.fastq.gz"
     output:
-        r1=fastq_dir + "/" + SAMPLE + "_trim_1.fastq.gz",
-        r2=fastq_dir + "/" + SAMPLE + "_trim_2.fastq.gz"
+        r1="./" + SAMPLE + "_trim_1.fastq.gz",
+        r2="./" + SAMPLE + "_trim_2.fastq.gz"
     threads: 6
     shell:
         """
