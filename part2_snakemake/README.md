@@ -51,6 +51,9 @@ For more introduction to Snakemake, please see the powerpoint slides `slides/par
 - This is nice, but what if we are running snakemake on hundreds or thousands of files? We cannot request hundreds of cores in a single job due to how the computing cluster is designed. Instead, snakemake can ***communicate with the cluster to submit each independent task as a separate job***
 - See `02_run_snakemake_as_multi_jobs.sh` for how to do this, and run it using the `sbatch` command. We're using the `--profile` option to give snakemake a bunch of information, all within the `snakemake_profiles/slurm` directory.
 
-## 4.) A simple snakemake workflow to detect mutations from WGS data
+## 4.) Exercise: convert a script we used last time into  a 1 step snakemake workflow
+- convert script `part1_basics/00_simple_job_submission/clean_fastq.sh` into a snakemake workflow
+
+## 5.) A simple snakemake workflow to detect mutations from WGS data
 - For a broad overview of this workflow, see `slides/part2_snakemake.pptx`.
 - 95% of this code was written by chatGPT4. I just had to give a program (bwa) an extra argument so that the name of the individual was included in the BAM file header, which is a requirement for some downstream variant callers.
