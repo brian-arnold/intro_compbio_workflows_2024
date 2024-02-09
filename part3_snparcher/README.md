@@ -1,16 +1,24 @@
 # Introduction to snpArcher
 
-NOTE: I do not recommend running this on your end as it requires considerable computational resources. Perhaps try with a *few* of your own samples you intend to use for research to avoid needlessly using computational resources. If this works, you can 
+## Preamble
+
+1. The [snpArcher](https://snparcher.readthedocs.io/en/latest/index.html) repository has a ton of information. You should definitely look at it if you want to run this workflow, especially the [setup page](https://snparcher.readthedocs.io/en/latest/setup.html). Below I've made some suplementary instructions, along with some specific ones to get everything working on the Della cluster.
+
+
+2. I do not recommend running this on your end as it requires considerable computational resources. Perhaps try with a *few* of your own samples you intend to use for research to avoid needlessly using computational resources. If this works, you can 
     1. remove or rename the final output file `*_raw.vcf.gz` in the `results` directory to make snpArcher see that the workflow is now incomplete
     2. run snpArcher on the rest of your samples
+
+
+## My instructions (to supplement original snpArcher repo)
 
 Move into the `intro_compbio_workflows_2024/part3_snparcher` directory and download the snpArcher code using:
 
 `git clone https://github.com/harvardinformatics/snpArcher.git`
 
-The instructions recommend making a new conda environment using:
+While the environment we used in `part1_basics` might work, the SnpArcher [instructions](https://snparcher.readthedocs.io/en/latest/setup.html#:~:text=mamba%20create%20%2Dc%20conda%2Dforge%20%2Dc%20bioconda%20%2Dn%20snparcher%20%22snakemake%3D%3D7.32.4%22%20%22python%3D%3D3.11.4%22) recommend making a new conda environment using:
 
-`mamba create -c conda-forge -c bioconda -n snparcher snakemake`
+`mamba create -c conda-forge -c bioconda -n snparcher "snakemake==7.32.4" "python==3.11.4"`
 
 In addition to this, I do the following to help circumvent an error:
 
@@ -22,7 +30,8 @@ In addition to this, I do the following to help circumvent an error:
 
 Before we move into the `snpArcher` directory we just cloned, I have a separate directory called `config`, copied from the snpArcher repository, in which I already changed files to run the workflow on our samples. 
 
-- The most important file is `config/samples.csv` where we need to specify the correct absolute path to the reference genome and fastq files. 
+- The **most important file** is `config/samples.csv` where we need to specify the correct absolute path to the reference genome and fastq files. 
+    - There exists a [script](https://snparcher.readthedocs.io/en/latest/setup.html#:~:text=A%20python%20script%20workflow/write_samples.py%20is%20included%20to%20help%20write%20the%20sample%20sheet%20for%20you.) to help make this sample sheet, but I haven't used it.
 
 - The `config/config.yaml` file has many variables which can be kept unchanged, except `final_prefix` could be useful to change across projects.
 
@@ -61,6 +70,16 @@ Next, let's do a dry run to see if we have everything configured correctly.
 `bash 02_dry_run.sh`
 
 If the dry run completes successfully and shows some rules that need to be run, then everything is good to go. However, the number of rules is shows that need to be run isn't the entire story, since some rules are executed only under some conditions that are determined at runtime. In practice, snparcher will likely run thousands of rules and submit thousands of jobs.
+
+### Small run to test snpArcher
+
+SnpArhcer provides a very small test dataset to ensure everything is working properly. See [here](https://snparcher.readthedocs.io/en/latest/executing.html#:~:text=and%20requisite%20files.-,Test%20datasets,-%EF%83%81).
+
+The command to run the test is:
+
+`snakemake -d .test/ecoli --cores 1 --use-conda`
+
+where the hidden .test directory is in the parent directory of the snpArcher github repository.
 
 ### Running snpArcher
 
